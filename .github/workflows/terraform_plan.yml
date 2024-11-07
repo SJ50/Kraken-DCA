@@ -11,9 +11,6 @@ jobs:
   tf_plan:
     name: Terraform plan
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "terraform"
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -25,7 +22,7 @@ jobs:
       - run: pipenv requirements --exclude-markers > requirements.txt
       - run: mkdir dependencies
       - run: mkdir dependencies/python
-      - run: docker run --rm --volume=$(pwd):/lambda-build -w=/lambda-build lambci/lambda:build-python3.8 pip install -r requirements.txt --target ../dependencies/python
+      - run: docker run --rm --volume=$(pwd):/lambda-build -w=/lambda-build lambci/lambda:build-python3.8 pip install -r requirements.txt --target dependencies/python
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -38,20 +35,20 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: terraform fmt -check
+        run: cd terraform && terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: cd terraform && terraform init
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: cd terraform && terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: cd terraform && terraform plan -no-color
 
       # - uses: dflook/terraform-plan@50b375f84b6c68c386d78ca53b2af6067eea3d7c # v1.29.1
       #   with:
