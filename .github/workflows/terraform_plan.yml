@@ -25,14 +25,14 @@ jobs:
       - run: pipenv requirements --exclude-markers > requirements.txt
       - run: mkdir dependencies
       - run: mkdir dependencies/python
-      - run: docker run --rm --volume=$(pwd):/lambda-build -w=/lambda-build lambci/lambda:build-python3.8 pip install -r requirements.txt --target dependencies/python
+      - run: docker run --rm --volume=$(pwd):/lambda-build -w=/lambda-build lambci/lambda:build-python3.8 pip install -r requirements.txt --target ../dependencies/python
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-region: eu-west-2
+          aws-region: us-east-1
 
       - uses: hashicorp/setup-terraform@v3
 

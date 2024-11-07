@@ -1,7 +1,7 @@
 data "archive_file" "dependencies_zip" {
   type = "zip"
 
-  source_dir  = "./${path.module}/dependencies"
+  source_dir  = "./${path.module}/../dependencies"
   output_path = "./${path.module}/layer.zip"
 }
 
