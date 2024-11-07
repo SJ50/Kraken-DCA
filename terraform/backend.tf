@@ -30,7 +30,7 @@ terraform {
     key    = "kraken-dca/terraform.tfstate"
     region = "us-east-1"
 
-    dynamodb_table = "sjain-aws-remote-tfstate"
+    dynamodb_table = "sjain-aws-remote-tfstate-lock"
     encrypt        = true
   }
 }
