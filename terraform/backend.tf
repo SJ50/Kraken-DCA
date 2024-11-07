@@ -27,7 +27,7 @@
 terraform {
   backend "s3" {
     bucket = "sjain-aws-remote-tfstate"
-    key    = "/kraken-dca/terraform.tfstate"
+    key    = "kraken-dca/terraform.tfstate"
     region = "us-east-1"
 
     dynamodb_table = "sjain-aws-remote-tfstate"
