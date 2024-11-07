@@ -9,7 +9,7 @@ resource "aws_cloudwatch_event_target" "kraken_dca_lambda_event_target" {
   rule  = aws_cloudwatch_event_rule.kraken_dca_lambda_event_rule.name
   input = <<EOF
     {
-        "trading_pair": "XXBTZEUR",
+        "trading_pair": "XXBTZAUD",
         "crypto_to_buy": "BTC"
     }
     EOF
