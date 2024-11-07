@@ -23,20 +23,20 @@ resource "aws_lambda_function" "kraken-dca-lambda" {
 
 }
 
-resource "aws_lambda_function" "kraken-withdraw-lambda" {
-  function_name = "kraken-withdraw-lambda"
+# resource "aws_lambda_function" "kraken-withdraw-lambda" {
+#   function_name = "kraken-withdraw-lambda"
 
-  filename = "kraken_withdraw_python_code.zip"
+#   filename = "kraken_withdraw_python_code.zip"
 
-  runtime = "python3.8"
-  handler = "withdraw.lambda_handler"
+#   runtime = "python3.8"
+#   handler = "withdraw.lambda_handler"
 
-  layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
+#   layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
 
-  source_code_hash = data.archive_file.withdraw_source_code_zip.output_base64sha256
+#   source_code_hash = data.archive_file.withdraw_source_code_zip.output_base64sha256
 
-  role = aws_iam_role.iam-for-lambda.arn
+#   role = aws_iam_role.iam-for-lambda.arn
 
-  timeout = 10
+#   timeout = 10
 
-}
+# }
