@@ -27,18 +27,6 @@ jobs:
       - run: mkdir dependencies/python
       - run: docker run --rm --volume=$(pwd):/lambda-build -w=/lambda-build lambci/lambda:build-python3.8 pip install -r requirements.txt --target dependencies/python
 
-      - name: Install pipenv
-        shell: bash
-        run: pwd
-
-      - name: Install pipenv
-        shell: bash
-        run: ls
-
-      - name: Install pipenv
-        shell: bash
-        run: tree
-
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
