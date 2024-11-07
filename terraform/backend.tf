@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "tmcinally-aws-remote-tfstate"
+  bucket = "sjain-aws-remote-tfstate"
 
   lifecycle {
     prevent_destroy = true
@@ -14,7 +14,7 @@ resource "aws_s3_bucket_versioning" "enabled" {
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "tmcinally-aws-remote-tfstate-locks"
+  name         = "sjain-aws-remote-tfstate-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
@@ -28,7 +28,7 @@ terraform {
   backend "s3" {
     bucket = "tmcinally-aws-remote-tfstate"
     key    = "global/s3/terraform.tfstate"
-    region = "eu-west-2"
+    region = "us-east-1"
 
     dynamodb_table = "tmcinally-aws-remote-tfstate-locks"
     encrypt        = true
