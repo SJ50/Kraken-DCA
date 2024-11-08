@@ -1,9 +1,9 @@
-data "archive_file" "dependencies_zip" {
-  type = "zip"
+# data "archive_file" "dependencies_zip" {
+#   type = "zip"
 
-  source_dir  = "./${path.module}/../dependencies"
-  output_path = "./${path.module}/layer.zip"
-}
+#   source_dir  = "./${path.module}/../dependencies"
+#   output_path = "./${path.module}/layer.zip"
+# }
 
 data "archive_file" "source_code_zip" {
   type = "zip"

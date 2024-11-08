@@ -1,9 +1,9 @@
-resource "aws_lambda_layer_version" "kraken_dca_dependencies" {
-  filename   = "layer.zip"
-  layer_name = "kraken_dca_dependencies"
+# resource "aws_lambda_layer_version" "kraken_dca_dependencies" {
+#   filename   = "layer.zip"
+#   layer_name = "kraken_dca_dependencies"
 
-  source_code_hash = data.archive_file.dependencies_zip.output_base64sha256
-}
+#   source_code_hash = data.archive_file.dependencies_zip.output_base64sha256
+# }
 
 resource "aws_lambda_function" "kraken-dca-lambda" {
   function_name = "kraken-dca-lambda"
