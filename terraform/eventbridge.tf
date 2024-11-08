@@ -10,7 +10,7 @@ resource "aws_cloudwatch_event_target" "kraken_dca_lambda_event_target" {
   input = <<EOF
     {
         "trading_pair": "XBTAUD",
-        "crypto_to_buy": "BTC"
+        "crypto_to_buy": "BTC",
         "currency": "ZAUD"
     }
     EOF
