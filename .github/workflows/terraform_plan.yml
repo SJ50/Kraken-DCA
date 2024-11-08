@@ -48,7 +48,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: cd terraform && terraform plan -no-color
+        run: cd terraform && terraform plan
 
       # - uses: dflook/terraform-plan@50b375f84b6c68c386d78ca53b2af6067eea3d7c # v1.29.1
       #   with:
