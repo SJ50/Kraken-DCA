@@ -3,7 +3,7 @@ import hashlib
 import hmac
 import math
 import time
-import requests
+from pip._vendor import requests
 import boto3
 
 
@@ -32,7 +32,6 @@ def get_api_sign(
     api_signature_decoded: str = api_signature.decode()
     return api_signature_decoded
 
-
 def get_bid_price(trading_pair: str) -> str:
     market_data: dict = requests.get(
         url=f"https://api.kraken.com/0/public/Ticker?pair={trading_pair}"
@@ -54,6 +53,29 @@ def get_aws_ssm_securestring_parameter(paramname: str) -> str:
         "Parameter"
     ]["Value"]
     return securestring
+
+
+def place_my_balance_on_kraken(
+    private_key: str, public_key: str
+) -> requests.Response:
+    nonce: str = get_nonce()
+    url_encoded_body: str = f"nonce={nonce}"
+    api_sign: str = get_api_sign(
+        api_path="/0/private/Balance",
+        urlencoded_body=url_encoded_body,
+        nonce=nonce,
+        private_key=private_key,
+    )
+
+    response: requests.Response = requests.post(
+        url="https://api.kraken.com/0/private/Balance",
+        data={
+            "nonce": nonce,
+        },
+        headers={"API-Key": public_key, "API-Sign": api_sign},
+    )
+    return response
+
 
 
 def place_limit_order_on_kraken(
@@ -87,17 +109,16 @@ def place_limit_order_on_kraken(
 
 def lambda_handler(event: dict, context) -> dict:
     crypto_to_buy: str = event["crypto_to_buy"]
-    budget: float = float(
-        get_aws_ssm_securestring_parameter(
-            f"kraken-dca-{crypto_to_buy}-daily-purchase-amount"
-        )
-    )
+    currency: str = event["currency"]
     private_key: str = get_aws_ssm_securestring_parameter("kraken-private-api-key")
     public_key: str = get_aws_ssm_securestring_parameter("kraken-public-api-key")
-
+    budget: requests.Response = place_my_balance_on_kraken(       
+        private_key=private_key,
+        public_key=public_key,
+        )
     response: requests.Response = place_limit_order_on_kraken(
         trading_pair=event["trading_pair"],
-        budget=budget,
+        budget=float (budget.json()['result'][currency]),
         private_key=private_key,
         public_key=public_key,
     )
