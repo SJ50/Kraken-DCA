@@ -44,7 +44,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: cd terraform && terraform validate -no-color
+        run: cd terraform && terraform validate
 
       - name: Terraform Plan
         id: plan
