@@ -101,6 +101,8 @@ def place_limit_order_on_kraken(
             "price": bid_price,
             "type": "buy",
             "volume": volume,
+            "oflags": "fciq",
+            "validate": "true",
         },
         headers={"API-Key": public_key, "API-Sign": api_sign},
     )
