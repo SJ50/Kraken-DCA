@@ -13,7 +13,7 @@ resource "aws_lambda_function" "kraken-dca-lambda" {
   runtime = "python3.8"
   handler = "dca.lambda_handler"
 
-  layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
+  # layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
 
   source_code_hash = data.archive_file.source_code_zip.output_base64sha256
 
@@ -31,7 +31,7 @@ resource "aws_lambda_function" "kraken-dca-lambda" {
 #   runtime = "python3.8"
 #   handler = "withdraw.lambda_handler"
 
-#   layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
+#   #layers = [aws_lambda_layer_version.kraken_dca_dependencies.arn]
 
 #   source_code_hash = data.archive_file.withdraw_source_code_zip.output_base64sha256
 
