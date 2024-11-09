@@ -1,7 +1,12 @@
+resource "random_integer" "minutes" {
+  min = (23 * 60)
+  max = (24 * 60)
+}
+
 resource "aws_cloudwatch_event_rule" "kraken_dca_lambda_event_rule" {
   name                = "kraken_dca_lambda_event_rule"
   description         = "Buy BTC every day at 08:30 UTC"
-  schedule_expression = "cron(30 8 * * ? *)"
+  schedule_expression = "rate(${random_integer.minutes.result} minutes)"
 }
 
 resource "aws_cloudwatch_event_target" "kraken_dca_lambda_event_target" {
