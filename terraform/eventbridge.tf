@@ -1,6 +1,9 @@
 resource "random_integer" "minutes" {
   min = (23 * 60)
   max = (24 * 60)
+  keepers = {
+    first = "${timestamp()}"
+    }  
 }
 
 resource "aws_cloudwatch_event_rule" "kraken_dca_lambda_event_rule" {

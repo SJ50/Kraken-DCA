@@ -5,6 +5,9 @@
 #   source_code_hash = data.archive_file.dependencies_zip.output_base64sha256
 # }
 
+locals {
+ order_expires = random_integer.minutes.result - 60 
+}
 resource "aws_lambda_function" "kraken-dca-lambda" {
   function_name = "kraken-dca-lambda"
 
