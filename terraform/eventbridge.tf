@@ -20,7 +20,7 @@ resource "aws_cloudwatch_event_target" "kraken_dca_lambda_event_target" {
     {
         "trading_pair": "XBTAUD",
         "crypto_to_buy": "BTC",
-        "currency": "ZAUD"
+        "currency": "ZAUD",
         "order_expires": "${local.order_expires}"
     }
     EOF
