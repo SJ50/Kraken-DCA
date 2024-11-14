@@ -94,7 +94,7 @@ def place_limit_order_on_kraken(
     volume: str = get_trade_volume(budget, bid_price)
     nonce: str = get_nonce()
     server_time = get_server_time()
-    order_expires = int(server_time) + int(order_expires)
+    order_expires = int(server_time) + int(order_expires) - 60
     url_encoded_body: str = f"nonce={nonce}&ordertype=limit&pair={trading_pair}&price={bid_price}&type=buy&volume={volume}&oflags=fciq&timeinforce=GTD&expiretm={order_expires}"
     api_sign: str = get_api_sign(
         api_path="/0/private/AddOrder",
