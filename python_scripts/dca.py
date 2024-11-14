@@ -32,6 +32,15 @@ def get_api_sign(
     api_signature_decoded: str = api_signature.decode()
     return api_signature_decoded
 
+def get_server_time() -> float:
+    server_time: dict = requests.get(
+            url=f"https://api.kraken.com/0/public/Time"
+        ).json()
+    server_time: float = server_time["result"]["unixtime"]    
+    return server_time
+ 
+
+
 def get_bid_price(trading_pair: str) -> str:
     market_data: dict = requests.get(
         url=f"https://api.kraken.com/0/public/Ticker?pair={trading_pair}"
@@ -84,14 +93,21 @@ def place_limit_order_on_kraken(
     bid_price: str = get_bid_price(trading_pair)
     volume: str = get_trade_volume(budget, bid_price)
     nonce: str = get_nonce()
-    url_encoded_body: str = f"nonce={nonce}&ordertype=limit&pair={trading_pair}&price={bid_price}&type=buy&volume={volume}&oflags=fciq&timeinforce=GTDexpiretm=%2b{order_expires}"
+    server_time = get_server_time()
+    order_expires = int(server_time) + int(order_expires)
+    url_encoded_body: str = f"nonce={nonce}&ordertype=limit&pair={trading_pair}&price={bid_price}&type=buy&volume={volume}&oflags=fciq&timeinforce=GTD&expiretm={order_expires}"
     api_sign: str = get_api_sign(
         api_path="/0/private/AddOrder",
         urlencoded_body=url_encoded_body,
         nonce=nonce,
         private_key=private_key,
     )
-
+    
+    
+    # print(f"server time: {server_time}")   
+    # print(f"api_sign: {api_sign}")
+    # print(f"api_key: {public_key}")
+    # print(f"url_encoded_body: {url_encoded_body}")
     print(f"BUYING: {volume}{crypto_to_buy} @ {bid_price}{currency}")
     
     response: requests.Response = requests.post(
@@ -105,7 +121,7 @@ def place_limit_order_on_kraken(
             "volume": volume,
             "oflags": "fciq",
             "timeinforce": "GTD",
-            "expiretm": "%2b" + order_expires
+            "expiretm": order_expires
         },
         headers={"API-Key": public_key, "API-Sign": api_sign},
     )
